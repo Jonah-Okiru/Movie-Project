@@ -1,5 +1,5 @@
 import { useState } from "react";
-function searchBar ({onSearch}) {
+function SearchBar ({onSearch}) {
     const [query, setQuery] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,4 +20,4 @@ function searchBar ({onSearch}) {
         </form>
     );
 }
-export default searchBar;
+export default SearchBar;

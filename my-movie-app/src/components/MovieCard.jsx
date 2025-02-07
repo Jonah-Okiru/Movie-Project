@@ -1,5 +1,5 @@
 function MovieList ({ movies, onSelectiveMovie}) {
-    retturn (
+    return (
         <div className="w-full md:w-0.5">
             <h2 className="text-xl font-semibold mb-4">Search Results</h2>
             <ul className="space-y-4">

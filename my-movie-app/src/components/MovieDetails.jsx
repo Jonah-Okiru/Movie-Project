@@ -1,6 +1,9 @@
 function MovieDetails ({movie}) {
+    if (!movie) {
+        return <p className="text-center text-gray-500">Loading movie details...</p>; // Prevents the error
+    }
     return (
-        <div className="w-full md:w-0.5 p-4 bg-white rounded-lg shadow">
+        <div className="grid-cols-4 sm:grid-cols-2 w-full md:w-0.5 p-4 bg-white rounded-lg shadow">
             <h2 className="text-2xl font-bold mb-4">{movie.Title}</h2>
             <img 
                 src={movie.Poster} 
