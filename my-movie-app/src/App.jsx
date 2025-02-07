@@ -1,35 +1,58 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import searchBar from './components/SearchBar'
+import MovieList from './components/MovieCard'
+import MovieDetails from './components/MovieDetails'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [movies, setMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] =useState((null));
+  const [error, setError] = useState("");
+  const searchMovies = async (query) => {
+    if (!query) {
+      setError("Please enter a movie name.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        `https://www.omdbapi.com/?s=${query}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
+      );
+      const data = await response.json();
+      if (data.Response === "True"){
+        setMovies(data.Search);
+        setError("");
+      } else {
+        setError(data.Error || "No movies found")
+        setMovies([]);
+      }
+    } catch (err) {
+      setError("An error occured while fetching data.");
+      console.error(err);
+    }
+  };
+  const selectMovie = async (imdbID) => {
+    try {
+      const response = await fetch(
+        `https://www.omdbapi.com/?i=${imdbID}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
+      );
+      const data = await response.json();
+      setSelectedMovie(data)
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
-    <>
+    <div className='min-h-screen bg-gray-100 p-4'>
+      <h1 className='text-3xl font-bold text-center mb-6'>Movie Database</h1>
+      <searchBar onSearch={searchMovies} />
+      {error && <p className='text-red-500 text-center mt-4'>{error}</p>}
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <MovieList movies={movies} onSelectiveMovie={selectMovie} />
+        {selectMovie && <MovieDetails movie={selectedMovie} />}
       </div>
-      <h1 className='text-green-700'>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+    </div>
+  );
 }
 
-export default App
+export default App;
