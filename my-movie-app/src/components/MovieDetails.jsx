@@ -3,7 +3,7 @@ import React from "react";
 function MovieDetails({ selectedMovie, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center p-4">
-      <div className="bg-white p-6 rounded-lg max-w-xl w-full relative">
+      <div className="bg-white p-6 rounded-lg max-w-xl w-full">
         <button className="absolute top-2 right-2 text-red-600" onClick={onClose}>
           Close
         </button>

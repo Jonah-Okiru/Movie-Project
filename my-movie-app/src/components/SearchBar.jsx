@@ -1,7 +1,8 @@
 // components/SearchBar.js
-import React from "react";
+import React, { useState } from "react";
 
-function SearchBar({ searchQuery, setSearchQuery }) {
+function SearchBar({ searchQuery, setSearchQuery, onSearch }) {
+  
   return (
     <div className="flex justify-center mb-6">
       <input
@@ -11,6 +12,12 @@ function SearchBar({ searchQuery, setSearchQuery }) {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="w-full max-w-lg p-2 border border-gray-300 rounded-lg"
       />
+      <button 
+        onClick={onSearch} 
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Search
+      </button>
     </div>
   );
 }

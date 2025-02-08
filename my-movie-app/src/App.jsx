@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 import MovieDetails from "./components/MovieDetails";
@@ -13,16 +13,16 @@ function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (searchQuery.length > 0) {
-      fetchMovies(searchQuery);
+  const fetchMovies = async () => {
+    if (!searchQuery.trim()) {
+      setError("Please enter a movie name.");
+      setMovies([]);
+      return;
     }
-  }, [searchQuery]);
 
-  const fetchMovies = async (query) => {
     try {
       setError(null);
-      const response = await axios.get(`${API_URL}?apikey=${API_KEY}&s=${query}`);
+      const response = await axios.get(`${API_URL}?apikey=${API_KEY}&s=${searchQuery}`);
       if (response.data.Response === "True") {
         setMovies(response.data.Search);
       } else {
@@ -51,7 +51,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-center">Movie Database</h1>
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={fetchMovies} />
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <MovieList movies={movies} fetchMovieDetails={fetchMovieDetails} />
       {selectedMovie && (
