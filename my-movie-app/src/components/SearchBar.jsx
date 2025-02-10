@@ -10,7 +10,7 @@ function SearchBar({ searchQuery, setSearchQuery, onSearch }) {
         placeholder="Search for a movie..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full max-w-lg p-2 border border-gray-300 rounded-lg"
+        className="w-full max-w-lg p-2 border border-gray-300 rounded-lg cursor-pointer"
       />
       <button 
         onClick={onSearch} 
