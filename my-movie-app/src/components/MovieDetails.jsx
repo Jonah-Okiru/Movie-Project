@@ -4,7 +4,7 @@ function MovieDetails({ selectedMovie, onClose, addToFavorites }) {
   return (
     <div className="absolute inset-0 bg-black bg-opacity-75 flex justify-center items-center p-4">
       <div className="bg-white p-6 rounded-lg max-w-xl w-full">
-        <button className="absolute top-2 right-2 text-red-600" onClick={onClose}>
+        <button className="absolute top-2 right-2 text-red-600 cursor-pointer" onClick={onClose}>
           Close
         </button>
         <img
