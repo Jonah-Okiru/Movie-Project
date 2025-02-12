@@ -1,8 +1,8 @@
 import React from "react";
 
-function MovieDetails({ selectedMovie, onClose }) {
+function MovieDetails({ selectedMovie, onClose, addToFavorites }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center p-4">
+    <div className="absolute inset-0 bg-black bg-opacity-75 flex justify-center items-center p-4">
       <div className="bg-white p-6 rounded-lg max-w-xl w-full">
         <button className="absolute top-2 right-2 text-red-600" onClick={onClose}>
           Close
@@ -25,6 +25,20 @@ function MovieDetails({ selectedMovie, onClose }) {
             </li>
           ))}
         </ul>
+        <div className="flex justify-between mt-4">
+          <button 
+            onClick={onClose}
+            className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600"
+          >
+            Close
+          </button>
+          <button
+            onClick={() => addToFavorites(selectedMovie)}
+            className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-900"
+          >
+            Add to Favorites
+          </button>
+        </div>
       </div>
     </div>
   );
