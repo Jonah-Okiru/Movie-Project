@@ -17,6 +17,8 @@ function App() {
   const [favorites, setFavorites] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const [sortOption, setSortOption] = useState("year");
+  const [filterYear, setFilterYear] = useState("");
 
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -37,9 +39,19 @@ function App() {
       setError(null);
       const response = await axios.get(`${API_URL}?apikey=${API_KEY}&s=${searchQuery}&page=${page}`);
       if (response.data.Response === "True") {
-        setMovies(response.data.Search);
+        let fetchedMovies = response.data.Search;
         setTotalResults(parseInt(response.data.totalResults, 10));
         setCurrentPage(page);
+        if (filterYear) {
+          fetchedMovies = fetchedMovies.filter((movie) => movie.Year.includes(filterYear))
+        }
+        if (sortOption === "year") {
+          fetchedMovies = fetchedMovies.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+        } else if (sortOption === "title") {
+          fetchedMovies.sort((a, b) => a.Title.localeCompare(b.Title));
+          
+        }
+        setMovies(fetchedMovies);
       } else {
         setMovies([]);
         setError("No movies found. Try a different query.");
@@ -77,12 +89,35 @@ function App() {
     <div className="min-h-screen bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-center">Movie Database</h1>
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={() => fetchMovies(1)} />
+        <div className="flex justify-center mb-4 gap-4">
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="border p-2 rounded"
+          >
+            <option value="year">Sort by Year</option>
+            <option value="title">Sort by Title</option>
+          </select>
+          <input 
+            type="text" 
+            placeholder="Filter by Year"
+            value={filterYear}
+            onChange={(e) => setFilterYear(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <button
+            onClick={() => fetchMovies(1)}
+            className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Apply Filters
+          </button>
+        </div>
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <MovieList movies={movies} fetchMovieDetails={fetchMovieDetails} addToFavorites={addToFavorites} />
       {selectedMovie && (
         <MovieDetails selectedMovie={selectedMovie} onClose={() => setSelectedMovie(null)} addToFavorites={addToFavorites} />
       )}
-      <FavoritesList favorites={favorites} removeFromFavorites={removeFromFavorites} />
+      <FavoritesList favorites={favorites} removeFromFavorites={(imdbID) => setFavorites(favorites.filter(movie => movie.imdbID !== imdbID))} />
       <div className="flex justify-center mt-4">
         {currentPage >1 && (
           <button
