@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function MovieDetails({ selectedMovie, onClose, addToFavorites }) {
+  const [trailerUrl, setTrailerUrl] = useState("");
+  useEffect(() => {
+    const fetchTrailer = async () =>{
+      try {
+        const YOUTUBE_API_KEY = "AIzaSyAdTUnXQJmYEjS6Bmyjsr_RP1U6R746Pc8"
+        if (!YOUTUBE_API_KEY) {
+          console.error("YoutubeAPI key is missing or invalid.");
+          return;
+        }
+        const response = await axios.get(
+          `https://www.googleapis.com/youtube/v3/search`,
+          {
+            params: {
+              part: "snippet",
+              q: `${selectedMovie.Title} official trailer`,
+              key: YOUTUBE_API_KEY,
+              type: "video",
+              maxResults: 1,
+            },
+          }
+        );
+        if (response.data.items && response.data.items.length > 0) {
+          setTrailerUrl(`https://www.youtube.com/embed/${response.data.items[0].id.videoId}`);
+        } else {
+          console.warn("No trailer found for this movie");
+        }
+      } catch (error) {
+        console.error("Error fetching trailer:", error);
+      }
+    };
+    if (selectedMovie && selectedMovie.Title) {
+      fetchTrailer();
+    }
+    
+  }, [selectedMovie]);
   return (
     <div className="absolute inset-0 bg-black bg-opacity-75 flex justify-center items-center p-4">
       <div className="bg-white p-6 rounded-lg max-w-xl w-full">
@@ -25,6 +61,22 @@ function MovieDetails({ selectedMovie, onClose, addToFavorites }) {
             </li>
           ))}
         </ul>
+        {trailerUrl && (
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold mb-2">Watch Trailer</h3>
+            <iframe 
+              width="100%"
+              height="315"
+              src={trailerUrl}
+              title="Movie Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            >
+
+            </iframe>
+          </div>
+        )}
         <div className="flex justify-between mt-4">
           <button 
             onClick={onClose}
