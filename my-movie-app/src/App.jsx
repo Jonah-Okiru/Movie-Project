@@ -19,7 +19,11 @@ function App() {
   const [totalResults, setTotalResults] = useState(0);
   const [sortOption, setSortOption] = useState("year");
   const [filterYear, setFilterYear] = useState("");
-
+  const [theme, setTheme] = useState(localStorage.getItem("theme" || "light"));
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(savedFavorites);
@@ -86,8 +90,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Movie Database</h1>
+    <div className = {`min-h-screen ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+      <header className="p-4 items-center">
+        <h1 className="text-2xl font-bold mb-4 text-center">Movie Database</h1>
+        <div className="flex justify-center items-center">
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-800 transition"
+        >
+          Turn to {theme === "dark" ? "light" : "dark"} Mode
+        </button>
+        </div>
+        
+      </header>
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={() => fetchMovies(1)} />
         <div className="flex justify-center mb-4 gap-4">
           <select
