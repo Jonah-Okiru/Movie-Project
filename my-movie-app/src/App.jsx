@@ -5,11 +5,14 @@ import MovieDetails from "./components/MovieDetails";
 import FavoritesList from "./components/FavoritesList";
 import axios from "axios";
 import { button } from "framer-motion/client";
+import { useTranslation } from "react-i18next";
+import "./i18n";
 
 const API_URL = "https://www.omdbapi.com/";
 const API_KEY = "22d71a0c";
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -92,14 +95,20 @@ function App() {
   return (
     <div className = {`min-h-screen ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
       <header className="p-4 items-center">
-        <h1 className="text-2xl font-bold mb-4 text-center">Movie Database</h1>
-        <div className="flex justify-center items-center">
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-800 transition"
-        >
-          Turn to {theme === "dark" ? "light" : "dark"} Mode
-        </button>
+        <h1 className="text-2xl font-bold mb-4 text-center">{t("Movie Database")}</h1>
+        <div className="flex justify-center items-center gap-4">
+          <label>{t("language")}</label>
+          <select onChange={(e) => i18n.changeLanguage(e.target.value)} className="border p-2 rounded">
+            <option value="en">GB English</option>
+            <option value="es">ES Español</option>
+            <option value="fr">FR Français</option>
+          </select>
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-800 transition"
+          >
+            {t("Turn to")} {theme === "dark" ? t("light") : t("dark")} {t("Mode")}
+          </button>
         </div>
         
       </header>
