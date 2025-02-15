@@ -18,7 +18,7 @@ function MovieList({ movies, fetchMovieDetails }) {
               className="w-full h-64 object-cover rounded-t-lg"
             />
             <div className="p-4">
-              <h2 className="font-semibold text-lg">{movie.Title}</h2>
+              <h2 className="font-semibold text-lg text-gray-800">{movie.Title}</h2>
               <p className="text-sm text-gray-600">Release Year: {movie.Year}</p>
             </div>
           </div>

@@ -94,59 +94,61 @@ function App() {
 
   return (
     <div className = {`min-h-screen ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
-      <header className="p-4 items-center">
-        <h1 className="text-2xl font-bold mb-4 text-center">{t("Movie Database")}</h1>
-        <div className="flex justify-center items-center gap-4">
-          <label>{t("language")}</label>
-          <select onChange={(e) => i18n.changeLanguage(e.target.value)} className="border p-2 rounded">
+      <header className="p-4 flex flex-col items-center text-center space-y-4 sm:space-y-0 sm:flex-row sm:justify-between sm:px-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">{t("Movie Database")}</h1>
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <select onChange={(e) => i18n.changeLanguage(e.target.value)} className="border p-2 rounded w-full sm:w-auto">
             <option value="en">GB English</option>
             <option value="es">ES Español</option>
             <option value="fr">FR Français</option>
           </select>
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-800 transition"
+            className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 w-full sm:w-auto"
           >
             {t("Turn to")} {theme === "dark" ? t("light") : t("dark")} {t("Mode")}
           </button>
         </div>
         
       </header>
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={() => fetchMovies(1)} />
-        <div className="flex justify-center mb-4 gap-4">
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className="border p-2 rounded"
-          >
-            <option value="year">Sort by Year</option>
-            <option value="title">Sort by Title</option>
-          </select>
-          <input 
-            type="text" 
-            placeholder="Filter by Year"
-            value={filterYear}
-            onChange={(e) => setFilterYear(e.target.value)}
-            className="border p-2 rounded"
-          />
-          <button
-            onClick={() => fetchMovies(1)}
-            className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Apply Filters
-          </button>
-        </div>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-      <MovieList movies={movies} fetchMovieDetails={fetchMovieDetails} addToFavorites={addToFavorites} />
-      {selectedMovie && (
-        <MovieDetails selectedMovie={selectedMovie} onClose={() => setSelectedMovie(null)} addToFavorites={addToFavorites} />
-      )}
-      <FavoritesList favorites={favorites} removeFromFavorites={(imdbID) => setFavorites(favorites.filter(movie => movie.imdbID !== imdbID))} />
-      <div className="flex justify-center mt-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={() => fetchMovies(1)} />
+          <div className="flex flex-col sm:flex-row justify-center gap-4 my-4">
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="border p-2 rounded w-full sm:w-auto"
+            >
+              <option value="year">Sort by Year</option>
+              <option value="title">Sort by Title</option>
+            </select>
+            <input 
+              type="text" 
+              placeholder="Filter by Year"
+              value={filterYear}
+              onChange={(e) => setFilterYear(e.target.value)}
+              className="border p-2 rounded w-full sm:w-auto"
+            />
+            <button
+              onClick={() => fetchMovies(1)}
+              className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded w-full sm:w-auto hover:bg-blue-700"
+            >
+              Apply Filters
+            </button>
+          </div>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <MovieList movies={movies} fetchMovieDetails={fetchMovieDetails} addToFavorites={addToFavorites} />
+        {selectedMovie && (
+          <MovieDetails selectedMovie={selectedMovie} onClose={() => setSelectedMovie(null)} addToFavorites={addToFavorites} />
+        )}
+        <FavoritesList favorites={favorites} removeFromFavorites={(imdbID) => setFavorites(favorites.filter(movie => movie.imdbID !== imdbID))} />
+      </div>
+      
+      <div className="flex justify-center mt-4 space-x-2">
         {currentPage >1 && (
           <button
             onClick={() => fetchMovies(currentPage-1)}
-            className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded mx-2 hover:bg-blue-700"
+            className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 "
           >
             Previous
           </button>
@@ -154,7 +156,7 @@ function App() {
         {movies.length > 0 && (currentPage * 10) <totalResults && (
           <button
             onClick={() => fetchMovies(currentPage+1)}
-            className="bg-blue-500 text-white px-4 rounded mx-2 cursor-pointer hover:bg-blue-600"
+            className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Next
           </button>

@@ -48,7 +48,7 @@ function MovieDetails({ selectedMovie, onClose, addToFavorites }) {
           alt={selectedMovie.Title}
           className="w-full h-96 object-cover rounded-lg mb-4"
         />
-        <h2 className="text-2xl font-bold mb-2">{selectedMovie.Title}</h2>
+        <h2 className="text-2xl font-bold mb-2 text-gray-800">{selectedMovie.Title}</h2>
         <p className="text-sm text-gray-600 mb-2">Release Year: {selectedMovie.Year}</p>
         <p className="text-gray-800 mb-4">{selectedMovie.Plot}</p>
         <p className="text-sm font-semibold">Genre: {selectedMovie.Genre}</p>
