@@ -1,6 +1,6 @@
 // components/SearchBar.js
 import React, { useState } from "react";
-
+// SearchBar component receives searchQuery, setSearchQuery, and onSearch as props
 function SearchBar({ searchQuery, setSearchQuery, onSearch }) {
   
   return (
@@ -22,4 +22,4 @@ function SearchBar({ searchQuery, setSearchQuery, onSearch }) {
   );
 }
 
-export default SearchBar;
+export default SearchBar; // Export the SearchBar component.
