@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // Import React hooks.
+import React, { useEffect, useState } from "react"; // Import React and hooks.
 import axios from "axios"; // Import axios for making API requests.
 // MovieDetail component displays detailed information about a selected movie.
 function MovieDetails({ selectedMovie, onClose, addToFavorites }) {

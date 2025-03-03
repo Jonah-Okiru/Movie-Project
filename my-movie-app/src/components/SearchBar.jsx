@@ -1,5 +1,5 @@
 // components/SearchBar.js
-import React, { useState } from "react";
+import React, { useState } from "react"; // Import React and hook
 // SearchBar component receives searchQuery, setSearchQuery, and onSearch as props
 function SearchBar({ searchQuery, setSearchQuery, onSearch }) {
   
