@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // import React and states.
+import React, { useEffect, useState } from "react"; // import React hooks.
 import { motion } from "framer-motion"; // Import motion from Framer Motion for animations.
 // MovieList component receives movies array and fetchMovieDetails function as props
 function MovieList({ movies, fetchMovieDetails }) {
